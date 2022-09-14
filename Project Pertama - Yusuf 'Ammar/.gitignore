@@ -1,0 +1,13 @@
+Library/* 
+Logs/* 
+Temp/* 
+.vs/* 
+obj/* 
+ 
+.vsconfig 
+*.sln 
+*.csproj 
+Project Pertama - Yusuf 'Ammar/Library/Artifacts/05/05953ad1ea9a5bd8d7e551fa98eb259f
+
+git rm -rf --cached .
+git add 
