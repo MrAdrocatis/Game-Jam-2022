@@ -13,7 +13,9 @@ public class PowerUpManager : MonoBehaviour
     public List<GameObject> PowerUpTemplateList;
     public Transform leftPaddle;
     public Transform rightPaddle;
-   
+    public float PULongPaddle;
+
+
     private List<GameObject> PowerUpList;
 
     private float timer;
@@ -22,7 +24,7 @@ public class PowerUpManager : MonoBehaviour
     {
         PowerUpList = new List<GameObject>();
         timer = 0;
-        
+
 
     }
 
@@ -36,13 +38,6 @@ public class PowerUpManager : MonoBehaviour
             Debug.Log("Test");
             timer -= SpawnInterval;
         }
-
-       
-
-
-
-
-
     }
     public void GenerateRandomPowerUp()
     {
@@ -50,7 +45,7 @@ public class PowerUpManager : MonoBehaviour
     }
     public void GenerateRandomPowerUp(Vector2 position)
     {
-        
+
 
         if (position.x < Power_Up_Area_Min.x ||
             position.x > Power_Up_Area_Max.x ||
@@ -69,7 +64,7 @@ public class PowerUpManager : MonoBehaviour
         GameObject PowerUp = Instantiate(PowerUpTemplateList[randomIndex], new Vector3(position.x, position.y, PowerUpTemplateList[randomIndex].transform.position.z), Quaternion.identity, SpawnArea);
         PowerUp.SetActive(true);
 
-        
+
         PowerUpList.Add(PowerUp);
 
         StartCoroutine(RemovePowerUpOnCertainOfTime(PowerUp));
@@ -81,7 +76,7 @@ public class PowerUpManager : MonoBehaviour
         Destroy(PowerUp);
         Debug.Log("test");
     }
-    
+
 
     public void RemoveAllPowerUp()
     {
@@ -89,7 +84,7 @@ public class PowerUpManager : MonoBehaviour
         {
             RemovePowerUp(PowerUpList[0]);
         }
-        
+
     }
 
     private IEnumerator RemovePowerUpOnCertainOfTime(GameObject PowerUp)
@@ -100,8 +95,25 @@ public class PowerUpManager : MonoBehaviour
         Destroy(PowerUp);
     }
 
-    
+    public IEnumerator ScaleOnCertainTime(Transform paddle, GameObject gameObject)
+    {
+        ScaleUp(leftPaddle);
 
-   
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        yield return new WaitForSeconds(1f);
 
+        ScaleDown(leftPaddle);
+        Destroy(gameObject);
+    }
+
+    private void ScaleUp(Transform paddle)
+    {
+        paddle.localScale = new Vector3(0.5f, PULongPaddle, 1f);
+    }
+
+    private void ScaleDown(Transform paddle)
+    {
+        paddle.localScale = new Vector3(0.5f, 3f, 1f);
+    }
 }
